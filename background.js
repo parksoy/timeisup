@@ -1,15 +1,15 @@
-// Set initial time limit to 15 minutes (in milliseconds)
-const timeLimit = 15 * 60 * 1000;
+// Set initial time limit to 1 minute (for testing; you can change this)
+const timeLimit = 1 * 60 * 1000; // 1 minute in milliseconds
 
 // Check if time limit has passed
 chrome.runtime.onStartup.addListener(() => {
   chrome.storage.local.get(["lastShutdownTime"], (result) => {
     const lastShutdownTime = result.lastShutdownTime || 0;
     const currentTime = Date.now();
-    
+
     if (currentTime - lastShutdownTime > timeLimit) {
       // If time limit has passed, open static page
-      chrome.tabs.create({ url: "static.html" });
+      chrome.tabs.create({ url: chrome.runtime.getURL("static.html") });
     }
   });
 });
